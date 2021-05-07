@@ -1,0 +1,26 @@
+# This config file is a part of this repository only for simplicity of implementation.
+# It would ideally reside outside of the code repository, preferably in a
+# config repository or another location accessible by the application.
+# For example, an S3 bucket, and FTP server, etc.
+# This would make sure that editing the config values doesn't require a re-deployment
+# unless it's a schema change or addition of more checks.
+
+minimum_customer_income:
+  threshold: 500
+  rejection_reason: LOW_INCOME
+
+maximum_customer_debt:
+  threshold: 0.5 # This is indicated as a ratio of the customer_income value
+  rejection_reason: HIGH_DEBT_FOR_INCOME
+
+maximum_payment_remarks_12m:
+  threshold: 0
+  rejection_reason: PAYMENT_REMARKS_12M
+
+maximum_payment_remarks:
+  threshold: 1
+  rejection_reason: PAYMENT_REMARKS
+
+minimum_customer_age:
+  threshold: 18
+  rejection_reason: UNDERAGE
