@@ -15,11 +15,3 @@ def validate_config(func):
         except (KeyError, ValueError):
             raise yaml.YAMLError
     return inner
-
-
-def main():
-    pass
-
-
-if __name__ == '__main__':
-    main()
