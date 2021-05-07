@@ -17,7 +17,7 @@ def validate():
         validation_config = read_yaml(f'{os.path.dirname(__file__)}/service/validation_config.yaml')
         response_ = PolicyValidationService(request_, validation_config).run()
         return response_.as_dict(), 200
-    except (KeyError, ValueError) as e:
+    except (KeyError, ValueError):
         # KeyError will be raised if any of the mandatory keys are absent in the request
         # ValueError will be raised if any of the request attribute values can't be cast into their data type
         # The above errors indicate a bad request and thus, the status code is set to 400 here
@@ -31,4 +31,4 @@ def validate():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0')
