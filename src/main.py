@@ -1,3 +1,5 @@
+import os
+
 import yaml
 from flask import Flask, jsonify, request, Response
 
@@ -12,7 +14,7 @@ app = Flask('__main__')
 def validate():
     try:
         request_ = PolicyValidationRequest.from_dict(request.get_json(force=True))
-        validation_config = read_yaml('service/validation_config.yaml')
+        validation_config = read_yaml(f'{os.path.dirname(__file__)}/service/validation_config.yaml')
         response_ = PolicyValidationService(request_, validation_config).run()
         return jsonify(response_.as_dict())
     except (KeyError, ValueError) as e:
