@@ -2,6 +2,7 @@ import yaml
 from flask import Flask, jsonify, request, Response
 
 from src.do.request import PolicyValidationRequest
+from src.service.helpers import read_yaml
 from src.service.policy_validation import PolicyValidationService
 
 app = Flask('__main__')
@@ -11,8 +12,8 @@ app = Flask('__main__')
 def validate():
     try:
         request_ = PolicyValidationRequest.from_dict(request.get_json(force=True))
-        validation_service = PolicyValidationService(request_)
-        response_ = validation_service.run()
+        validation_config = read_yaml('service/validation_config.yaml')
+        response_ = PolicyValidationService(request_, validation_config).run()
         return jsonify(response_.as_dict())
     except (KeyError, ValueError) as e:
         # KeyError will be raised if any of the mandatory keys are absent in the request

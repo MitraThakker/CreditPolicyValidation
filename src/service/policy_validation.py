@@ -1,12 +1,14 @@
+from typing import Dict
+
 from src.do.request import PolicyValidationRequest
 from src.do.response import PolicyValidationResponse, ResponseResult
-from src.service.helpers import read_yaml, validate_config
+from src.service.helpers import validate_config
 
 
 class PolicyValidationService:
-    def __init__(self, request: PolicyValidationRequest):
+    def __init__(self, request: PolicyValidationRequest, config: Dict):
         self.request = request
-        self.config = read_yaml('service/validation_config.yaml')
+        self.config = config
 
     @validate_config
     def is_acceptable_income(self, customer_income: float) -> bool:
