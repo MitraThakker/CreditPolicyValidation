@@ -11,7 +11,7 @@ class TestHelpers(unittest.TestCase):
         pass
 
     def test_read_yaml(self):
-        config = read_yaml('validation_config.yaml')
+        config = read_yaml('./validation_config.yaml')
         self.assertEqual(5, len(config))
 
 
