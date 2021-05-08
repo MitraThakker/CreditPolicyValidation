@@ -14,7 +14,7 @@ app = Flask('__main__')
 def validate():
     try:
         request_ = PolicyValidationRequest.from_dict(request.get_json(force=True))
-        validation_config = read_yaml(f'{os.path.dirname(__file__)}/service/validation_config.yaml')
+        validation_config = read_yaml(os.environ['VALIDATION_CONFIG_PATH'])
         response_ = PolicyValidationService(request_, validation_config).run()
         return response_.as_dict(), 200
     except (KeyError, ValueError):
@@ -28,7 +28,3 @@ def validate():
         return {
                    'error': 'Error parsing YAML file containing policy validation config.'
                }, 500
-
-
-if __name__ == '__main__':
-    app.run()

@@ -12,6 +12,6 @@ def validate_config(func):
     def inner(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except (KeyError, ValueError):
+        except (KeyError, ValueError, TypeError):
             raise yaml.YAMLError
     return inner
