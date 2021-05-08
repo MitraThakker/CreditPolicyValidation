@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 export PYTHONPATH=$PYTHONPATH:$PWD
 
