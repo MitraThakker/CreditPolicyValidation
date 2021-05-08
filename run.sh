@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export PYTHONPATH=$PYTHONPATH:$PWD
 
 cd src || exit
