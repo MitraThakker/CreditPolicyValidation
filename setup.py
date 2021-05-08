@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-setup(name='AnyfinAssignment',
+setup(name='CreditPolicyValidation',
       version='0.1',
       description='Microservice to host credit policies.',
       author='Mitra Thakker',
