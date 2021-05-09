@@ -4,7 +4,18 @@
 [![Coverage Status](https://coveralls.io/repos/github/MitraThakker/CreditPolicyValidation/badge.svg?branch=master)](https://coveralls.io/github/MitraThakker/CreditPolicyValidation?branch=master)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7c4b81bc7ce24a5d801cb2b9c5224ce8)](https://www.codacy.com/gh/MitraThakker/CreditPolicyValidation/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MitraThakker/CreditPolicyValidation&amp;utm_campaign=Badge_Grade)
 
-CreditPolicyValidation is a stateless microservice to host credit policies. It takes in customer details as a request. Based on the policies and customer's eligibility, the response would indicate whether the customer is eligible to get more credit.
+CreditPolicyValidation is a stateless microservice to host credit policies. It takes in customer details as a request. Based on the policies and customer's eligibility, the response would indicate whether the customer is eligible to get more credit or not.
+
+## Contents
+
+1. [Service Architecture](#service-architecture)
+    * [Design Considerations](#design-considerations)
+2. [Prerequisites](#prerequisites)
+3. [Running the service locally](#running-the-service-locally)
+4. [Running unit tests locally](#running-unit-tests-locally)
+5. [Cleaning Up](#cleaning-up)
+6. [Cases Tested](#cases-tested)
+7. [Built With](#built-with)
 
 ## Service Architecture
 
