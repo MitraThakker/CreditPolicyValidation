@@ -10,104 +10,115 @@ CreditPolicyValidation is a stateless microservice to host credit policies. It t
 
 ![Service Architecture](https://github.com/MitraThakker/CreditPolicyValidation/blob/master/assets/ServiceArchitecture.jpg?raw=true)
 
+### Design Considerations
+
+* This project uses Docker so that it can be independently run as an isolated container without disturbing the rest of the host system.
+* The Docker image used is the Alpine distribution of Linux which means that it is really light-weight and has nothing more than the bare minimum kernel and Python installed by default.
+* The controller/API endpoint is separated from the service layer which contains the business logic.
+* The validation config comes from a YAML file rather than hard-coding the values in the code. This makes it more convenient to update the config values without the need of any re-deployment which would save time in the long run. The code only needs to be updated when there's a change in config schema or logic about new policies need to be added.
+* Along with the given scenarios for accepting/rejecting the given request, additional validation checks are placed on the request attributes, their data types, and validation config schema to avoid errors due to a bad request format or invalid config schema. Examples for all test cases are given in the [Cases Tested](#cases-tested) section below.
+* Steps to execute unit tests locally in an independent container are also stated below in the [Running unit tests locally](#running-unit-tests-locally) section.
+* Travis-CI is used to run the CI pipeline to run unit tests on every push and can be used for more complicated functions including Continuous Deployment in the future.
+* Has automated code review setup via Codacy to avoid wasting the reviewers time on silly mistakes and more focus can be put  on the logic and implementation.
+
 ## Prerequisites
 
-There are only 2 pre-requisites needed to run this project locally:
+Prerequisites needed to run this project locally:
 1. Docker (can be downloaded from the [official site](https://hub.docker.com/))
 2. A clone of this repository
 3. A stable internet connection for a hassle-free build :)
 
 ## Running the service locally
 
- 1. Start Docker (if not already running).
+1. Start Docker (if not already running).
 
- 2. Open Terminal and go to the root directory of the project.
+2. Open Terminal and go to the root directory of the project.
 
 ```bash
 cd /path/to/CreditPolicyValidation
 ```
 
- 3. Build the Docker image.
+3. Build the Docker image.
 
 ```bash
 docker image build -t credit-policy-validation .
 ```
 
- 4. Verify that the image is exists in the list of images.
+4. Verify that the image is exists in the list of images.
 
 ```bash
 docker image ls
 ```
 
- 5. Run the docker container.
+5. Run the docker container.
 
 ```bash
 docker run -p 5000:5000 -d credit-policy-validation
 ```
 
- 6. Verify that the container is up and running by checking its status in the list of active containers.
+6. Verify that the container is up and running by checking its status in the list of active containers.
 
 ```bash
 docker container ls
 ```
 
- 7. Check the logs of the container to verify if the server is running.
+7. Check the logs of the container to verify if the server is running.
 
 ```bash
 docker container logs CONTAINER_ID
 ```
 
- 8. The validation service endpoint should be accessible on `0.0.0.0:5000/validate`.  Test it using an HTTP client like `curl` command on the terminal or by using a tool like Postman. 
+8. The validation service endpoint should be accessible on `0.0.0.0:5000/validate`.  Test it using an HTTP client like `curl` command on the terminal or by using a tool like Postman. 
 
 ## Running unit tests locally
 
- 1. Start Docker (if not already running).
+1. Start Docker (if not already running).
 
- 2. Open Terminal and go to the root directory of the project.
+2. Open Terminal and go to the root directory of the project.
 
 ```bash
 cd /path/to/CreditPolicyValidation
 ```
 
- 3. Build the Docker image.
+3. Build the Docker image.
 
 ```bash
 docker image build -t credit-policy-validation-unit-tests -f test.Dockerfile .
 ```
 
- 4. Verify that the image is exists in the list of images.
+4. Verify that the image is exists in the list of images.
 
 ```bash
 docker image ls
 ```
 
- 5. Run the docker container.
+5. Run the docker container.
 
 ```bash
 docker run -d credit-policy-validation-unit-tests
 ```
 
- 6. Verify that the container is up and running by checking its status in the list of active containers.
+6. Verify that the container is up and running by checking its status in the list of active containers.
 
 ```bash
 docker container ls
 ```
 
- 7. Check the logs of the container to see the unit test execution with the overall coverage report.
+7. Check the logs of the container to see the unit test execution with the overall coverage report.
 
 ```bash
 docker container logs CONTAINER_ID
 ```
 
-## Cleaning up
+## Cleaning Up
 
- 1. Stop the Docker container.
+1. Stop the Docker container.
 
 ```bash
 docker container stop CONTAINER_ID
 ```
 
- 2. Remove all stopped containers.
+2. Remove all stopped containers.
 
 ```bash
 docker system prune
@@ -115,20 +126,20 @@ docker system prune
 
 OR
 
- 2. Remove a specific container.
+2. Remove a specific container.
 
 ```bash
 docker container rm CONTAINER_ID
 ```
 
- 3. Remove the docker image.
+3. Remove the docker image.
 ```bash
 docker image rm IMAGE_ID
 ```
 
-## Cases tested
+## Cases Tested
 
- 1. ACCEPT
+1. ACCEPT
 
 ```
 Request:
@@ -147,8 +158,7 @@ Response:
 }
 ```
 
-
- 2. Low income: REJECT
+2. Low income: REJECT
 
 ```
 Request:
@@ -167,8 +177,7 @@ Response:
 }
 ```
 
-
- 3. High debt for income: REJECT
+3. High debt for income: REJECT
 
 ```
 Request:
@@ -187,8 +196,7 @@ Response:
 }
 ```
 
-
- 4. Payment remarks 12m: REJECT
+4. Payment remarks 12m: REJECT
 
 ```
 Request:
@@ -207,8 +215,7 @@ Response:
 }
 ```
 
-
- 5. Payment remarks: REJECT
+5. Payment remarks: REJECT
 
 ```
 Request:
@@ -227,8 +234,7 @@ Response:
 }
 ```
 
-
- 6. Underage: REJECT
+6. Underage: REJECT
 
 ```
 Request:
@@ -247,8 +253,7 @@ Response:
 }
 ```
 
-
- 7. Bad request (status code 400) due to missing field
+7. Bad request (status code 400) due to missing field
 
 ```
 Request:
@@ -265,8 +270,7 @@ Response:
 }
 ```
 
-
- 8. Bad request (status code 400) due to wrong data type for a request attribute
+8. Bad request (status code 400) due to wrong data type for a request attribute
 
 ```
 Request:
@@ -284,8 +288,7 @@ Response:
 }
 ```
 
-
- 9. Server error (status code 500) due to invalid schema/attribute/value in `validation_config.yaml`. This is a server side issue and will be raised even if the request is valid.
+9. Server error (status code 500) due to invalid schema/attribute/value in `validation_config.yaml`. This is a server side issue and will be raised even if the request is valid.
 
 ```
 Request:
@@ -311,3 +314,4 @@ Response:
 * CI/CD Pipeline: Travis-CI
 * Coverage Report: Coveralls
 * Automated Code Review: Codacy
+* And... Lots of love! :)
