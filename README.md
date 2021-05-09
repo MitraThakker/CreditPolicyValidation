@@ -11,8 +11,8 @@ CreditPolicyValidation is a stateless microservice to host credit policies. It t
 1. [Service Architecture](#service-architecture)
     * [Design Considerations](#design-considerations)
 2. [Prerequisites](#prerequisites)
-3. [Running the service locally](#running-the-service-locally)
-4. [Running unit tests locally](#running-unit-tests-locally)
+3. [Running The Service](#running-the-service)
+4. [Executing Unit Tests](#executing-unit-tests)
 5. [Cleaning Up](#cleaning-up)
 6. [Cases Tested](#cases-tested)
 7. [Built With](#built-with)
@@ -39,7 +39,7 @@ Prerequisites needed to run this project locally:
 2. A clone of this repository
 3. A stable internet connection for a hassle-free build :)
 
-## Running the service locally
+## Running The Service
 
 1. Start Docker (if not already running).
 
@@ -81,7 +81,7 @@ docker container logs CONTAINER_ID
 
 8. The validation service endpoint should be accessible on `0.0.0.0:5000/validate`.  Test it using an HTTP client like `curl` command on the terminal or by using a tool like Postman. 
 
-## Running unit tests locally
+## Executing Unit Tests
 
 1. Start Docker (if not already running).
 
