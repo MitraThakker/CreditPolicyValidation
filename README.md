@@ -6,126 +6,108 @@
 
 CreditPolicyValidation is a stateless microservice to host credit policies. It takes in customer details as a request. Based on the policies and customer's eligibility, the response would indicate whether the customer is eligible to get more credit.
 
+## Service Architecture
 
+![Service Architecture](https://github.com/MitraThakker/CreditPolicyValidation/blob/master/assets/ServiceArchitecture.jpg?raw=true)
 
-### Prerequisites
+## Prerequisites
 
 There are only 2 pre-requisites needed to run this project locally:
 1. Docker (can be downloaded from the [official site](https://hub.docker.com/))
 2. A clone of this repository
 3. A stable internet connection for a hassle-free build :)
 
+## Running the service locally
 
+ 1. Start Docker (if not already running).
 
-### Running the service locally
-
-1. Start Docker (if not already running).
-   
-
-2. Open Terminal and go to the root directory of the project.
+ 2. Open Terminal and go to the root directory of the project.
 
 ```bash
 cd /path/to/CreditPolicyValidation
 ```
 
-
-3. Build the Docker image.
+ 3. Build the Docker image.
 
 ```bash
 docker image build -t credit-policy-validation .
 ```
 
-
-4. Verify that the image is exists in the list of images.
+ 4. Verify that the image is exists in the list of images.
 
 ```bash
 docker image ls
 ```
 
-
-5. Run the docker container.
+ 5. Run the docker container.
 
 ```bash
 docker run -p 5000:5000 -d credit-policy-validation
 ```
 
-
-6. Verify that the container is up and running by checking its status in the list of active containers.
+ 6. Verify that the container is up and running by checking its status in the list of active containers.
 
 ```bash
 docker container ls
 ```
 
-
-7. Check the logs of the container to verify if the server is running.
+ 7. Check the logs of the container to verify if the server is running.
 
 ```bash
 docker container logs CONTAINER_ID
 ```
 
+ 8. The validation service endpoint should be accessible on `0.0.0.0:5000/validate`.  Test it using an HTTP client like `curl` command on the terminal or by using a tool like Postman. 
 
-8. The validation service endpoint should be accessible on `0.0.0.0:5000/validate`.  Test it using an HTTP client like `curl` command on the terminal or by using a tool like Postman. 
+## Running unit tests locally
 
+ 1. Start Docker (if not already running).
 
-
-### Running unit tests locally
-
-1. Start Docker (if not already running).
-   
-
-2. Open Terminal and go to the root directory of the project.
+ 2. Open Terminal and go to the root directory of the project.
 
 ```bash
 cd /path/to/CreditPolicyValidation
 ```
 
-
-3. Build the Docker image.
+ 3. Build the Docker image.
 
 ```bash
 docker image build -t credit-policy-validation-unit-tests -f test.Dockerfile .
 ```
 
-
-4. Verify that the image is exists in the list of images.
+ 4. Verify that the image is exists in the list of images.
 
 ```bash
 docker image ls
 ```
 
-
-5. Run the docker container.
+ 5. Run the docker container.
 
 ```bash
 docker run -d credit-policy-validation-unit-tests
 ```
 
-
-6. Verify that the container is up and running by checking its status in the list of active containers.
+ 6. Verify that the container is up and running by checking its status in the list of active containers.
 
 ```bash
 docker container ls
 ```
 
-
-7. Check the logs of the container to see the unit test execution with the overall coverage report.
+ 7. Check the logs of the container to see the unit test execution with the overall coverage report.
 
 ```bash
 docker container logs CONTAINER_ID
 ```
 
+## Cleaning up
 
-
-### Cleaning up
-
-1. Stop the Docker container.
+ 1. Stop the Docker container.
 
 ```bash
 docker container stop CONTAINER_ID
 ```
 
-
-2. Remove all stopped containers.
+ 2. Remove all stopped containers.
 
 ```bash
 docker system prune
@@ -133,23 +115,20 @@ docker system prune
 
 OR
 
-2. Remove a specific container.
+ 2. Remove a specific container.
 
 ```bash
 docker container rm CONTAINER_ID
 ```
 
-
-3. Remove the docker image.
+ 3. Remove the docker image.
 ```bash
 docker image rm IMAGE_ID
 ```
 
+## Cases tested
 
-
-### Cases tested
-
-1. ACCEPT
+ 1. ACCEPT
 
 ```
 Request:
@@ -169,7 +148,7 @@ Response:
 ```
 
 
-2. Low income: REJECT
+ 2. Low income: REJECT
 
 ```
 Request:
@@ -189,7 +168,7 @@ Response:
 ```
 
 
-3. High debt for income: REJECT
+ 3. High debt for income: REJECT
 
 ```
 Request:
@@ -209,7 +188,7 @@ Response:
 ```
 
 
-4. Payment remarks 12m: REJECT
+ 4. Payment remarks 12m: REJECT
 
 ```
 Request:
@@ -229,7 +208,7 @@ Response:
 ```
 
 
-5. Payment remarks: REJECT
+ 5. Payment remarks: REJECT
 
 ```
 Request:
@@ -249,7 +228,7 @@ Response:
 ```
 
 
-6. Underage: REJECT
+ 6. Underage: REJECT
 
 ```
 Request:
@@ -269,7 +248,7 @@ Response:
 ```
 
 
-7. Bad request (status code 400) due to missing field
+ 7. Bad request (status code 400) due to missing field
 
 ```
 Request:
@@ -287,7 +266,7 @@ Response:
 ```
 
 
-8. Bad request (status code 400) due to wrong data type for a request attribute
+ 8. Bad request (status code 400) due to wrong data type for a request attribute
 
 ```
 Request:
@@ -306,7 +285,7 @@ Response:
 ```
 
 
-9. Server error (status code 500) due to invalid schema/attribute/value in `validation_config.yaml`. This is a server side issue and will be raised even if the request is valid.
+ 9. Server error (status code 500) due to invalid schema/attribute/value in `validation_config.yaml`. This is a server side issue and will be raised even if the request is valid.
 
 ```
 Request:
@@ -324,9 +303,7 @@ Response:
 }
 ```
 
-
-
-### Built With
+## Built With
 
 * Language: Python 3.9
 * Web Framework: Flask
