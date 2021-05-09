@@ -28,7 +28,7 @@ CreditPolicyValidation is a stateless microservice to host credit policies. It t
 * The controller/API endpoint is separated from the service layer which contains the business logic.
 * The validation config comes from a YAML file rather than hard-coding the values in the code. This makes it more convenient to update the config values without the need of any re-deployment which would save time in the long run. The code only needs to be updated when there's a change in config schema or logic about new policies need to be added.
 * Along with the given scenarios for accepting/rejecting the given request, additional validation checks are placed on the request attributes, their data types, and validation config schema to avoid errors due to a bad request format or invalid config schema. Examples for all test cases are given in the [Cases Tested](#cases-tested) section below.
-* Steps to execute unit tests locally in an independent container are also stated below in the [Running unit tests locally](#running-unit-tests-locally) section.
+* Steps to execute unit tests locally in an independent container are also stated below in the [Executing Unit Tests](#executing-unit-tests) section.
 * Travis-CI is used to run the CI pipeline to run unit tests on every push and can be used for more complicated functions including Continuous Deployment in the future.
 * Has automated code review setup via Codacy to avoid wasting the reviewers time on silly mistakes and more focus can be put  on the logic and implementation.
 
