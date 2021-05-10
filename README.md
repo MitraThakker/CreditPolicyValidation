@@ -109,10 +109,10 @@ docker image ls
 docker run -d credit-policy-validation-unit-tests
 ```
 
-6. Verify that the container is up and running by checking its status in the list of active containers.
+6. Verify that the container has finished executing by checking the list of all containers.
 
 ```bash
-docker container ls
+docker container ls -a
 ```
 
 7. Check the logs of the container to see the unit test execution with the overall coverage report.
