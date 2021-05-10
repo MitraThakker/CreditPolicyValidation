@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/MitraThakker/CreditPolicyValidation/badge.svg?branch=master)](https://coveralls.io/github/MitraThakker/CreditPolicyValidation?branch=master)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7c4b81bc7ce24a5d801cb2b9c5224ce8)](https://www.codacy.com/gh/MitraThakker/CreditPolicyValidation/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MitraThakker/CreditPolicyValidation&amp;utm_campaign=Badge_Grade)
 
-CreditPolicyValidation is a stateless microservice to host credit policies. It takes in customer details as a request. Based on the policies and customer's eligibility, the response would indicate whether the customer is eligible to get more credit or not.
+CreditPolicyValidation is a stateless microservice to host credit policies. It accepts customer details as a request. Based on the policies and customer's eligibility, the response would indicate whether the customer is eligible to get more credit or not.
 
 ## Contents
 
