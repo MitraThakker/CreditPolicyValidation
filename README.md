@@ -270,7 +270,7 @@ Response:
 Request:
 {
     "customer_income": 499.99,
-    "customer_debt": 0.0,
+    "customer_debt": 500,
     "payment_remarks_12m": 1,
     "payment_remarks": 2,
     "customer_age": 17
