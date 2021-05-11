@@ -22,11 +22,13 @@ def test_validate_success(client):
     })
     assert response.status_code == 200
     assert response.get_json()['result'] == ResponseResult.ACCEPT.value
+    assert len(response.get_json()['reasons']) == 0
 
 
 def test_validate_error_400(client):
     response = client.post('/validate', json={})
     assert response.status_code == 400
+    assert response.get_json()['error'] == 'Error parsing request. Please check the request attributes and their types.'
 
 
 def test_validate_error_500(client):
@@ -39,3 +41,4 @@ def test_validate_error_500(client):
         'customer_age': 18
     })
     assert response.status_code == 500
+    assert response.get_json()['error'] == 'Error parsing YAML file containing policy validation config.'

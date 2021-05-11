@@ -42,42 +42,64 @@ class TestPolicyValidationService(unittest.TestCase):
         response_ = PolicyValidationService(self.request_, self.base_config).run().as_dict()
 
         self.assertEqual(ResponseResult.ACCEPT.value, response_.get('result'))
-        self.assertEqual('', response_.get('reason'))
+        self.assertEqual(0, len(response_.get('reasons')))
 
     def test_low_income(self):
         self.request_.customer_income = 499.99
+        self.request_.customer_debt = 0.0
         response_ = PolicyValidationService(self.request_, self.base_config).run().as_dict()
 
         self.assertEqual(ResponseResult.REJECT.value, response_.get('result'))
-        self.assertEqual('LOW_INCOME', response_.get('reason'))
+        self.assertEqual(1, len(response_.get('reasons')))
+        self.assertEqual('LOW_INCOME', response_.get('reasons')[0])
 
     def test_high_debt(self):
         self.request_.customer_debt = 501
         response_ = PolicyValidationService(self.request_, self.base_config).run().as_dict()
 
         self.assertEqual(ResponseResult.REJECT.value, response_.get('result'))
-        self.assertEqual('HIGH_DEBT_FOR_INCOME', response_.get('reason'))
+        self.assertEqual(1, len(response_.get('reasons')))
+        self.assertEqual('HIGH_DEBT_FOR_INCOME', response_.get('reasons')[0])
 
     def test_payment_remarks_12m(self):
         self.request_.payment_remarks_12m = 1
         response_ = PolicyValidationService(self.request_, self.base_config).run().as_dict()
 
         self.assertEqual(ResponseResult.REJECT.value, response_.get('result'))
-        self.assertEqual('PAYMENT_REMARKS_12M', response_.get('reason'))
+        self.assertEqual(1, len(response_.get('reasons')))
+        self.assertEqual('PAYMENT_REMARKS_12M', response_.get('reasons')[0])
 
     def test_payment_remarks(self):
         self.request_.payment_remarks = 2
         response_ = PolicyValidationService(self.request_, self.base_config).run().as_dict()
 
         self.assertEqual(ResponseResult.REJECT.value, response_.get('result'))
-        self.assertEqual('PAYMENT_REMARKS', response_.get('reason'))
+        self.assertEqual(1, len(response_.get('reasons')))
+        self.assertEqual('PAYMENT_REMARKS', response_.get('reasons')[0])
 
     def test_underage(self):
         self.request_.customer_age = 17
         response_ = PolicyValidationService(self.request_, self.base_config).run().as_dict()
 
         self.assertEqual(ResponseResult.REJECT.value, response_.get('result'))
-        self.assertEqual('UNDERAGE', response_.get('reason'))
+        self.assertEqual(1, len(response_.get('reasons')))
+        self.assertEqual('UNDERAGE', response_.get('reasons')[0])
+
+    def test_all_failure_reasons(self):
+        self.request_ = PolicyValidationRequest(customer_income=499.99,
+                                                customer_debt=500,
+                                                payment_remarks_12m=1,
+                                                payment_remarks=2,
+                                                customer_age=17)
+        response_ = PolicyValidationService(self.request_, self.base_config).run().as_dict()
+
+        self.assertEqual(ResponseResult.REJECT.value, response_.get('result'))
+        self.assertEqual(5, len(response_.get('reasons')))
+        self.assertEqual('LOW_INCOME', response_.get('reasons')[0])
+        self.assertEqual('HIGH_DEBT_FOR_INCOME', response_.get('reasons')[1])
+        self.assertEqual('PAYMENT_REMARKS_12M', response_.get('reasons')[2])
+        self.assertEqual('PAYMENT_REMARKS', response_.get('reasons')[3])
+        self.assertEqual('UNDERAGE', response_.get('reasons')[4])
 
     def test_invalid_config(self):
         with self.assertRaises(yaml.YAMLError):

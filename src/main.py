@@ -26,7 +26,7 @@ def validate():
 
     Sample Response:
         {
-            "reason": "",
+            "reasons": [],
             "result": "ACCEPT"
         }
     """

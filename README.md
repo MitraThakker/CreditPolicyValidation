@@ -164,7 +164,7 @@ Request:
 
 Response:
 {
-    "reason": "",
+    "reasons": [],
     "result": "ACCEPT"
 }
 ```
@@ -175,7 +175,7 @@ Response:
 Request:
 {
     "customer_income": 499.99,
-    "customer_debt": 500,
+    "customer_debt": 0.0,
     "payment_remarks_12m": 0,
     "payment_remarks": 1,
     "customer_age": 18
@@ -183,7 +183,7 @@ Request:
 
 Response:
 {
-    "reason": "LOW_INCOME",
+    "reasons": ["LOW_INCOME"],
     "result": "REJECT"
 }
 ```
@@ -202,7 +202,7 @@ Request:
 
 Response:
 {
-    "reason": "HIGH_DEBT_FOR_INCOME",
+    "reasons": ["HIGH_DEBT_FOR_INCOME"],
     "result": "REJECT"
 }
 ```
@@ -221,7 +221,7 @@ Request:
 
 Response:
 {
-    "reason": "PAYMENT_REMARKS_12M",
+    "reasons": ["PAYMENT_REMARKS_12M"],
     "result": "REJECT"
 }
 ```
@@ -240,7 +240,7 @@ Request:
 
 Response:
 {
-    "reason": "PAYMENT_REMARKS",
+    "reasons":["PAYMENT_REMARKS"],
     "result": "REJECT"
 }
 ```
@@ -259,12 +259,37 @@ Request:
 
 Response:
 {
-    "reason": "UNDERAGE",
+    "reasons": ["UNDERAGE"],
     "result": "REJECT"
 }
 ```
 
-7. Bad request (status code 400) due to missing field
+7. All reasons: REJECT
+
+```
+Request:
+{
+    "customer_income": 499.99,
+    "customer_debt": 0.0,
+    "payment_remarks_12m": 1,
+    "payment_remarks": 2,
+    "customer_age": 17
+}
+
+Response:
+{
+    "reasons": [
+        "LOW_INCOME",
+        "HIGH_DEBT_FOR_INCOME",
+        "PAYMENT_REMARKS_12M",
+        "PAYMENT_REMARKS",
+        "UNDERAGE"
+    ],
+    "result": "REJECT"
+}
+```
+
+8. Bad request (status code 400) due to missing field
 
 ```
 Request:
@@ -281,7 +306,7 @@ Response:
 }
 ```
 
-8. Bad request (status code 400) due to wrong data type for a request attribute
+9. Bad request (status code 400) due to wrong data type for a request attribute
 
 ```
 Request:
@@ -299,7 +324,7 @@ Response:
 }
 ```
 
-9. Server error (status code 500) due to invalid schema/attribute/value in `validation_config.yaml`. This is a server side issue and will be raised even if the request is valid.
+10. Server error (status code 500) due to invalid schema/attribute/value in `validation_config.yaml`. This is a server side issue and will be raised even if the request is valid.
 
 ```
 Request:

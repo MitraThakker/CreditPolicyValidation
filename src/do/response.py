@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Dict
+from typing import Dict, List
 
 
 class ResponseResult(Enum):
@@ -20,9 +20,9 @@ class PolicyValidationResponse:
     ORMs when using with frameworks like Django/Flask.
     """
 
-    def __init__(self, result: ResponseResult, reason: str):
+    def __init__(self, result: ResponseResult, reasons: List[str]):
         self.result = result
-        self.reason = reason
+        self.reasons = reasons
 
     def as_dict(self) -> Dict:
         """
@@ -30,5 +30,5 @@ class PolicyValidationResponse:
         """
         return {
             'result': self.result.value,
-            'reason': self.reason
+            'reasons': self.reasons
         }

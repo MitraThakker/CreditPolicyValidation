@@ -59,25 +59,21 @@ class PolicyValidationService:
         Runs all validations necessary as per the credit policy and
         returns a `PolicyValidationResponse` object with the appropriate values.
         """
+        reasons = []
         if not self.is_acceptable_income(self.request.customer_income):
-            return PolicyValidationResponse(result=ResponseResult.REJECT,
-                                            reason=self.config['minimum_customer_income']['rejection_reason'])
+            reasons.append(self.config['minimum_customer_income']['rejection_reason'])
 
         if not self.is_acceptable_debt(self.request.customer_income, self.request.customer_debt):
-            return PolicyValidationResponse(result=ResponseResult.REJECT,
-                                            reason=self.config['maximum_customer_debt']['rejection_reason'])
+            reasons.append(self.config['maximum_customer_debt']['rejection_reason'])
 
         if not self.is_acceptable_payment_remarks_12m(self.request.payment_remarks_12m):
-            return PolicyValidationResponse(result=ResponseResult.REJECT,
-                                            reason=self.config['maximum_payment_remarks_12m']['rejection_reason'])
+            reasons.append(self.config['maximum_payment_remarks_12m']['rejection_reason'])
 
         if not self.is_acceptable_payment_remarks(self.request.payment_remarks):
-            return PolicyValidationResponse(result=ResponseResult.REJECT,
-                                            reason=self.config['maximum_payment_remarks']['rejection_reason'])
+            reasons.append(self.config['maximum_payment_remarks']['rejection_reason'])
 
         if not self.is_acceptable_customer_age(self.request.customer_age):
-            return PolicyValidationResponse(result=ResponseResult.REJECT,
-                                            reason=self.config['minimum_customer_age']['rejection_reason'])
+            reasons.append(self.config['minimum_customer_age']['rejection_reason'])
 
-        return PolicyValidationResponse(result=ResponseResult.ACCEPT,
-                                        reason='')
+        result = ResponseResult.REJECT if reasons else ResponseResult.ACCEPT
+        return PolicyValidationResponse(result=result, reasons=reasons)
